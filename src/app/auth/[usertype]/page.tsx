@@ -24,6 +24,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
       // Signup your mentor
     }
   };
+  
 
   if (newUser)
     // Signup form
