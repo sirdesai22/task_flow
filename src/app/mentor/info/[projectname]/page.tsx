@@ -1,3 +1,5 @@
+import { levels } from "@/data/levels";
+import Image from "next/image";
 import React from "react";
 
 type Props = {};
@@ -24,18 +26,28 @@ const page = (props: Props) => {
         </div>
       </div>
 
-      {/* progress circles */}
-      <div className="flex justify-center items-center w-full">
+      <div className="flex justify-center items-center w-full mb-24">
         <div className="relative flex items-center justify-between mt-10 w-[80%]">
+          {/* <div className="absolute bg-white h-2 -z-10 w-full"></div> */}
+          {/* <div className="absolute bg-green-500 h-2 left-0 -z-10 w-[50%] rounded-r-full"></div> */}
 
-          <div className="absolute bg-white h-2 -z-10 w-full"></div>
-          <div className="absolute bg-green-500 h-2 left-0 -z-10 w-[60%] rounded-r-full"></div>
-
-          <div className="h-32 w-32 bg-stone-700 rounded-full"></div>
-          <div className="h-32 w-32 bg-stone-700 rounded-full"></div>
-          <div className="h-32 w-32 bg-stone-700 rounded-full"></div>
-          <div className="h-32 w-32 bg-stone-700 rounded-full"></div>
-          <div className="h-32 w-32 bg-stone-700 rounded-full"></div>
+          {levels.map((level, index) => (
+            <div key={index} className="h-32 w-32 text-center">
+              <Image
+                src={`/levels/level${index + 1}.png`}
+                width={500}
+                height={500}
+                alt="Picture of the author"
+                className="hover:scale-105 transition-all ease-in-out"
+              />
+              {/* <img
+                src={`/levels/level${index + 1}.png`}
+                className={`-mt-3 ${index > 2 ? "grayscale" : ""}`}
+                alt="level"
+              /> */}
+              <p className="text-xl font-semibold">{level}</p>
+            </div>
+          ))}
         </div>
       </div>
 
