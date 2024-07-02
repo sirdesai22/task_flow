@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { useDBContext } from "@/components/globalDB-Context";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
@@ -9,6 +10,9 @@ const GroupDetails = (props: Props) => {
   const [member2, setMember2] = useState("");
   const [projectName, setProjectName] = useState("");
   const [mentor, setMentor] = useState("");
+
+  const { mentorDB } = useDBContext();
+  console.log(mentorDB)
 
   return (
     <div className="w-full flex flex-col items-center justify-center gap-8 h-screen">
@@ -71,7 +75,14 @@ const GroupDetails = (props: Props) => {
             <option className="p-2 bg-slate-900 text-slate-700" value="none">
               Select your mentor
             </option>
-            <option className="text-white p-2 bg-slate-900" value="anusha">
+
+            {mentorDB.map((m, index) => (
+              <option key={index} className="text-white p-2 bg-slate-900" value="tanvi">
+                {m.name}
+              </option>
+            ))}
+
+            {/* <option className="text-white p-2 bg-slate-900" value="anusha">
               Anusha
             </option>
             <option className="text-white p-2 bg-slate-900" value="tanvi">
@@ -82,7 +93,7 @@ const GroupDetails = (props: Props) => {
             </option>
             <option className="text-white p-2 bg-slate-900" value="mentor">
               Mentor
-            </option>
+            </option> */}
           </select>
 
           <button

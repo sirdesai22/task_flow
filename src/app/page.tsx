@@ -1,8 +1,10 @@
 'use client'
+import { useDBContext } from "@/components/globalDB-Context";
 import { Vortex } from "@/components/ui/voxtex";
 import { motion } from "framer-motion";
 
 export default function Home() {
+
   return (
     <div className="w-full mx-auto rounded-md  h-screen overflow-hidden">
       <Vortex
