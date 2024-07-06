@@ -1,7 +1,7 @@
 "use client";
 export default function Home() {
   return (
-    <div className="flex justify-center items-center flex-col h-screen">      
+    <div className="flex justify-center items-center flex-col h-screen z-10">      
       <h1 className="py-5 bg-gradient-to-b from-blue-500 to-indigo-500 text-transparent bg-clip-text text-2xl md:text-9xl font-extrabold text-center animate-fade">
         Project Pulse
       </h1>
