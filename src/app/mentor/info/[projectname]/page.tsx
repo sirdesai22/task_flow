@@ -6,9 +6,9 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="p-2">
+    <div className="p-2 z-10 w-full">
       <h1 className="text-4xl my-3 font-bold">Project: Project Management System using Gamification</h1>
-      <div className="w-full p-3 rounded-md bg-gray-800">
+      <div className="w-full p-3 rounded-md bg-gray-300">
         <div className="flex justify-between text-3xl">
           <h1>Member name</h1>
           <p>U15BH21S0158</p>
@@ -54,7 +54,7 @@ const page = (props: Props) => {
       {/* requests  */}
       <div className="flex flex-col gap-3 mt-5">
         <h1 className="text-4xl font-semibold">Approval Requests:</h1>
-        <div className="flex justify-between items-center p-5 bg-gray-700 rounded-lg">
+        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
           <h2 className="text-x">Your request title</h2>
           <div className="flex gap-5">
             <button className="bg-green-500 w-[7rem] py-2 rounded-md text-white font-semibold">Approve</button>
@@ -62,7 +62,7 @@ const page = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center p-5 bg-gray-700 rounded-lg">
+        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
           <h2 className="text-x">Your request title</h2>
           <div className="flex gap-5">
             <button className="bg-green-500 w-[7rem] py-2 rounded-md text-white font-semibold">Approve</button>
@@ -70,7 +70,7 @@ const page = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center p-5 bg-gray-700 rounded-lg">
+        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
           <h2 className="text-x">Your request title</h2>
           <div className="flex gap-5">
             <button className="bg-green-500 w-[7rem] py-2 rounded-md text-white font-semibold">Approve</button>

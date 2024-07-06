@@ -8,11 +8,11 @@ const TeamDashboard = (props: Props) => {
   // const levels = ['Requirements', 'Design', 'Development', 'Testing', 'Delpoyment'];
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-full z-10 min-h-screen">
       <h1 className="text-5xl my-3 font-bold text-center">
         Project Management System using Gamification
       </h1>
-      <div className="w-full p-3 rounded-md bg-gray-800">
+      <div className="w-full p-3 rounded-md bg-gray-300">
         <div className="flex justify-between text-3xl">
           <h1>Member name</h1>
           <p>U15BH21S0158</p>
@@ -70,14 +70,14 @@ const TeamDashboard = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center p-5 bg-gray-700 rounded-lg">
+        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
           <h2 className="text-x">Added authentication using Google</h2>
           <div className="flex gap-5">
             <p className="text-xl font-semibold text-green-500">Approved</p>
           </div>
         </div>
 
-        <div className="flex justify-between items-center p-5 bg-gray-700 rounded-lg">
+        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
           <h2 className="text-x">Implemented user dashboard</h2>
           <div className="flex gap-5">
             <p className="text-xl font-semibold text-red-500">Rejected</p>

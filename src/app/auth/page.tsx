@@ -5,7 +5,7 @@ type Props = {};
 
 const page = (props: Props) => {
   return (
-    <div className="flex w-full h-screen bg-black justify-center items-center flex-col" style={{background: 'url(/black_noise.jpg)', backgroundRepeat: 'no-repeat'}}>
+    <div className="flex w-full h-screen justify-center items-center flex-col z-10">
       <h1 className="text-8xl font-semibold">Login as</h1>
 
       <div className="flex w-full justify-evenly items-center">

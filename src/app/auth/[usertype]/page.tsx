@@ -1,6 +1,6 @@
 "use client";
 import { auth, db } from "@/config/firebase.config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 
@@ -50,16 +50,25 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
       }
   };
 
+  const handleUserLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      window.location.href = `/${usertype}/dashboard`
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   if (newUser)
     // Signup form
     return (
-      <div className="w-full flex flex-col items-center justify-center gap-8 h-screen">
+      <div className="w-full flex flex-col items-center justify-center gap-8 h-screen z-10">
         <h1 className="text-7xl font-semibold">Signup as {usertype}</h1>
         <div className="w-[40vw]">
-          <form className="flex flex-col p-10 gap-5 w-full text-xl">
+          <div className="flex flex-col p-10 gap-5 w-full text-xl">
             {usertype === "mentor" ? (
               <input
-                className="p-2 bg-transparent border-2 rounded-md"
+                className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
                 type="text"
                 placeholder="Enter your name"
                 value={mentorName}
@@ -70,7 +79,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               <></>
             )}
             <input
-              className="p-2 bg-transparent border-2 rounded-md"
+              className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="email"
               placeholder={`Enter ${
                 usertype === "team" ? "team" : "your"
@@ -80,7 +89,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               required
             />
             <input
-              className="p-2 bg-transparent border-2 rounded-md"
+              className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="password"
               placeholder="Enter your password"
               value={password}
@@ -88,7 +97,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               required
             />
             <input
-              className="p-2 bg-transparent border-2 rounded-md"
+              className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="password"
               placeholder="Confirm your password"
               value={confirmPass}
@@ -96,7 +105,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               required
             />
             <button
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-[0px_2px_0px_0px_#FFFFFF40_inset] font-semibold"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white  font-semibold shadow-lg"
               onClick={(usertype==='mentor')?handleMentorSignup:handleTeamSignup}
             >
               {usertype === "team" ? "Continue" : "Signup"}
@@ -107,7 +116,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
             >
               Already registered? Login
             </p>
-          </form>
+          </div>
         </div>
       </div>
     );
@@ -118,23 +127,27 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
 
   else
     return (
-      <div className="w-full flex flex-col items-center justify-center gap-10 h-screen">
+      <div className="w-full flex flex-col items-center justify-center gap-10 h-screen z-10">
         <h1 className="text-7xl font-semibold">Login as {usertype}</h1>
         <div className="w-[40vw]">
-          <form className="flex flex-col p-10 gap-5 w-full text-xl">
+          <div className="flex flex-col p-10 gap-5 w-full text-xl">
             <input
-              className="p-2 bg-transparent border-2 rounded-md"
+              className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="email"
+              value={email}
+              onChange={(e) => {setEmail(e.target.value);}}
               placeholder="Enter your email"
               required
             />
             <input
-              className="p-2 bg-transparent border-2 rounded-md"
+              className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="password"
+              value={password}
+              onChange={(e) => {setPassword(e.target.value);}}
               placeholder="Enter your password"
               required
             />
-            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-[0px_2px_0px_0px_#FFFFFF40_inset] font-semibold">
+            <button onClick={handleUserLogin} className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-lg font-semibold">
               Login
             </button>
             <p
@@ -143,7 +156,7 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
             >
               Not registered yet? Signup
             </p>
-          </form>
+          </div>
         </div>
       </div>
     );

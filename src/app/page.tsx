@@ -1,33 +1,23 @@
-'use client'
-import { useDBContext } from "@/components/globalDB-Context";
-import { Vortex } from "@/components/ui/voxtex";
-import { motion } from "framer-motion";
-
+"use client";
 export default function Home() {
-
   return (
-    <div className="w-full mx-auto rounded-md  h-screen overflow-hidden">
-      <Vortex
-        backgroundColor="black"
-        rangeY={800}
-        particleCount={500}
-        baseHue={120}
-        className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-full"
-      >
-        <h1 className="text-white text-2xl md:text-9xl font-bold text-center animate-fade">
-          TaskFlow
-        </h1>
+    <div className="flex justify-center items-center flex-col h-screen">      
+      <h1 className="py-5 bg-gradient-to-b from-blue-500 to-indigo-500 text-transparent bg-clip-text text-2xl md:text-9xl font-extrabold text-center animate-fade">
+        Project Pulse
+      </h1>
 
-        <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center animate-fade delay-1000">
-          This is chemical burn. It&apos;ll hurt more than you&apos;ve ever been
-          burned and you&apos;ll have a scar.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center gap-4 mt-6">
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-[0px_2px_0px_0px_#FFFFFF40_inset] animate-fade delay-1000" onClick={()=>{window.location.href = '/auth'}}>
-            Get started
-          </button>
-        </div>
-      </Vortex>
+      <p className="text-blue-500 font-semibold text-sm md:text-3xl max-w-xl text-center animate-fade delay-1000">
+      Simplify, Organise, Achieve <br />
+      {/* Streamline Your Project Journey */}
+      </p>
+      <button
+        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-lg mt-5 animate-fade"
+        onClick={() => {
+          window.location.href = "/auth";
+        }}
+      >
+        Get started
+      </button>
     </div>
   );
 }

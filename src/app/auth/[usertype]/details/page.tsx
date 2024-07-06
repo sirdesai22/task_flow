@@ -12,15 +12,14 @@ const GroupDetails = (props: Props) => {
   const [mentor, setMentor] = useState("");
 
   const { mentorDB } = useDBContext();
-  console.log(mentorDB)
 
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-8 h-screen">
+    <div className="w-full flex flex-col items-center justify-center gap-8 h-screen z-10">
       <h1 className="text-7xl font-semibold">Fill in your team details</h1>
       <div className="w-[40vw]">
-        <form className="flex flex-col p-10 gap-5 w-full text-xl">
+        <div className="flex flex-col p-10 gap-5 w-full text-xl">
           <input
-            className="p-2 bg-transparent border-2 rounded-md"
+            className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black"
             type="text"
             value={leader}
             onChange={(e) => {
@@ -31,7 +30,7 @@ const GroupDetails = (props: Props) => {
           />
 
           <input
-            className="p-2 bg-transparent border-2 rounded-md"
+            className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black"
             type="text"
             value={member1}
             onChange={(e) => {
@@ -42,7 +41,7 @@ const GroupDetails = (props: Props) => {
           />
 
           <input
-            className="p-2 bg-transparent border-2 rounded-md"
+            className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black"
             type="text"
             value={member2}
             onChange={(e) => {
@@ -53,7 +52,7 @@ const GroupDetails = (props: Props) => {
           />
 
           <input
-            className="p-2 bg-transparent border-2 rounded-md"
+            className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black"
             type="text"
             value={projectName}
             onChange={(e) => {
@@ -64,7 +63,7 @@ const GroupDetails = (props: Props) => {
           />
 
           <select
-            className="p-2 bg-transparent border-2 rounded-md"
+            className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black"
             value={mentor}
             onChange={(e) => {
               setMentor(e.target.value);
@@ -102,7 +101,7 @@ const GroupDetails = (props: Props) => {
           >
             Signup
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
