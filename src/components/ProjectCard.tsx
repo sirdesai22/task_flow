@@ -5,8 +5,8 @@ import { useDBContext } from "./globalDB-Context";
 
 type Props = {
   project: {
-    teamEmail: string;
-    mentorEmail: string;
+    teamId: string;
+    mentorId: string;
     projectName: string;
   };
 };
@@ -24,7 +24,7 @@ const ProjectCard = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const teamDetails = teamDB.find((t: { email: string }) => t.email === props.project.teamEmail);
+        const teamDetails = teamDB.find((t: { id: string }) => t.id == props.project.teamId);
         if (teamDetails) {
           setTeam(teamDetails);
         }

@@ -7,27 +7,53 @@ import React, { useEffect, useState } from "react";
 
 type Props = {};
 
+type Team = {
+  id: string;
+  email: string;
+  leader: string;
+  member1: string;
+  member2: string;
+  projectName: string;
+};
+
+type Project = {
+  id: string;
+  mentorId: string;
+  teamId: string;
+  projectName: string;
+  request: [];
+};
+
 const TeamDashboard = (props: Props) => {
   // const levels = ['Requirements', 'Design', 'Development', 'Testing', 'Delpoyment'];
-  const { teamDB } = useDBContext();
-  const [teamData, setTeamData] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
+  const { teamDB, projectsDB } = useDBContext();
+  const [teamData, setTeamData] = useState<Team>();
+  const [project, setProject] = useState<Project>();
+  const [teamMembers, setTeamMembers] = useState<String[]>();
   const teamEmail = auth?.currentUser?.email;
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     if (teamDB && teamEmail) {
-      const data = teamDB.find((team) => team.email === teamEmail);
+      const data = teamDB.find(
+        (team: { email: string }) => team.email === teamEmail
+      );
       setTeamData(data);
     }
   }, [teamDB, teamEmail]);
 
   useEffect(() => {
     if (teamData) {
+      const pro: any = projectsDB.find(
+        (project: { teamId: string }) => project.teamId === teamData.id
+      );
+      setProject(pro);
+      setRequests(pro.requests)
       const members = [teamData.leader, teamData.member1, teamData.member2];
       console.log(teamData);
       setTeamMembers(members);
     }
-  }, [teamData]);
+  }, [teamData, projectsDB]);
 
   return (
     <div className="p-2 w-full z-10 min-h-screen">
@@ -61,7 +87,6 @@ const TeamDashboard = (props: Props) => {
         ) : (
           <></>
         )}
-       
       </div>
 
       {/* progress circles */}
@@ -72,18 +97,18 @@ const TeamDashboard = (props: Props) => {
 
           {levels.map((level, index) => (
             <div key={index} className="h-32 w-32 text-center">
-              <Image
+              {/* <Image
                 src={`/levels/level${index + 1}.png`}
                 width={500}
                 height={500}
                 alt="Picture of the author"
                 className="hover:scale-105 transition-all ease-in-out"
-              />
-              {/* <img
-                src={`/levels/level${index + 1}.png`}
-                className={`-mt-3 ${index > 2 ? "grayscale" : ""}`}
-                alt="level"
               /> */}
+              <img
+                src={`/levels/level${index + 1}.png`}
+                className={`-mt-3 ${index > project.level ? "grayscale" : ""}`}
+                alt="level"
+              />
               <p className="text-xl font-semibold">{level}</p>
             </div>
           ))}
@@ -97,7 +122,9 @@ const TeamDashboard = (props: Props) => {
           <div className="flex gap-5">
             <button
               className="bg-blue-500 w-[10rem] py-2 rounded-md text-white font-semibold"
-              onClick={() => (window.location.href = "/team/request")}
+              onClick={() =>
+                (window.location.href = `/team/request/${String(project.id)}`)
+              }
             >
               Add progress
             </button>
@@ -110,19 +137,17 @@ const TeamDashboard = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
-          <h2 className="text-x">Added authentication using Google</h2>
-          <div className="flex gap-5">
-            <p className="text-xl font-semibold text-green-500">Approved</p>
+        {requests.map((req:{title:string, desc:string, approved:boolean}, index) => (
+          <div key={index} className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
+            <h2 className="text-x">{req.title}</h2>
+            <div className="flex gap-5">
+              <p className={`text-xl font-semibold ${req.approved===null?"text-gray-500":req.approved?"text-green-500":"text-red-500"}`}>
+              {req.approved===null?"Pending":req.approved?"Approved":"Rejected"}
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
-          <h2 className="text-x">Implemented user dashboard</h2>
-          <div className="flex gap-5">
-            <p className="text-xl font-semibold text-red-500">Rejected</p>
-          </div>
-        </div>
+        ))}
+        
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const Dashboard = (props: Props) => {
         <div className="w-1/2 flex flex-col gap-3">
           <div className="flex justify-between items-center mb-5">
             <p className="text-3xl font-semibold">Registered Mentors</p>
-            <button className="px-4 py-2 bg-green-500 font-semibold rounded-full text-white">
+            <button className="px-4 py-2 bg-green-500 font-semibold rounded-full text-white" onClick={()=>{window.location.href='/admin/mentor-signup'}}>
               Create mentor
             </button>
           </div>

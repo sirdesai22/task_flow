@@ -18,22 +18,26 @@ const MentorSignup = (props: Props) => {
     e.preventDefault();
     // Signup your mentor
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Store all details of mentor
-      // name
-      // email
-      // usertype
-      try {
-        await addDoc(mentorDBRef, {
-          name: mentorName,
-          email: email,
-          usertype: "mentor",
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      if (password !== confirmPass) {
+        alert("Please check your password");
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+        // Store all details of mentor
+        // name
+        // email
+        // usertype
+        try {
+          await addDoc(mentorDBRef, {
+            name: mentorName,
+            email: email,
+            usertype: "mentor",
+          });
+        } catch (error) {
+          console.log(error);
+        }
 
-      window.location.href = "/mentor/dashboard";
+        window.location.href = "/mentor/dashboard";
+      }
     } catch (error) {
       alert(error);
     }

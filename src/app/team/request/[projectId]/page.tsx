@@ -1,4 +1,7 @@
 "use client";
+import { useDBContext } from "@/components/globalDB-Context";
+import { db } from "@/config/firebase.config";
+import { collection, doc, FieldValue, getDoc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 
 type Props = {};
@@ -6,7 +9,29 @@ type Props = {};
 const RequestForm = (props: Props) => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const submitProgress = () => {};
+  // const projectDB = useDBContext;
+  // const projectDBRef = collection(db, "projectDB");
+
+  const submitProgress = async () => {
+    const docRef = doc(db, "projectDB", "F9eWqPQmLsRPpKHvC2y0");
+    const docSnap:any = await getDoc(docRef);
+    let prevState = docSnap.data().requests; // Get the current state of the 'request' array
+
+    if (!Array.isArray(prevState)) {
+      prevState = []; // Initialize as an empty array if it's not already
+    }
+
+    const data = {
+      requests: [...prevState, {
+        title: title,
+        desc: desc,
+        approved: null
+      }]
+    };
+
+    const team = await updateDoc(docRef, data);
+    window.location.href = "/team/dashboard";
+  };
   return (
     <div className="min-h-screen z-10 flex flex-col justify-center items-center gap-5">
       <h1 className="text-5xl font-semibold">Journal your progress📝</h1>

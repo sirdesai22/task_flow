@@ -19,7 +19,7 @@ const TeamLogin = () => {
   const [member1, setMember1] = useState("");
   const [member2, setMember2] = useState("");
   const [projectName, setProjectName] = useState("");
-  const [mentor, setMentor] = useState("");
+  const [mentorId, setMentorId] = useState("");
 
   const { mentorDB } = useDBContext();
 
@@ -40,9 +40,9 @@ const TeamLogin = () => {
       // email
       // usertype
       try {
-        await addDoc(teamDBRef, {
+        const team = await addDoc(teamDBRef, {
           email: email,
-          mentor: mentor,
+          mentorId: mentorId,
           leader: leader,
           member1: member1,
           member2: member2,
@@ -51,9 +51,11 @@ const TeamLogin = () => {
         });
 
         await addDoc(projectDBRef, {
-          teamEmail: email,
-          mentorEmail: mentor,
+          teamId: team.id,
+          mentorId: mentorId,
           projectName: projectName,
+          level: 0,
+          requests: []
         });
       } catch (error) {
         console.log(error);
@@ -160,9 +162,9 @@ const TeamLogin = () => {
 
               <select
                 className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black w-full"
-                value={mentor}
+                value={mentorId}
                 onChange={(e) => {
-                  setMentor(e.target.value);
+                  setMentorId(e.target.value);
                 }}
                 defaultValue={"none"}
                 required
@@ -177,8 +179,8 @@ const TeamLogin = () => {
                   Select your mentor
                 </option>
 
-                {mentorDB.map((m:{name:string, email:string}, index) => (
-                  <option key={index} className="" value={m.email}>
+                {mentorDB.map((m:{name:string, id:any}, index) => (
+                  <option key={index} className="" value={m.id}>
                     {m.name}
                   </option>
                 ))}
