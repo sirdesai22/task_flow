@@ -9,7 +9,7 @@ const page = (props: Props) => {
       <h1 className="text-8xl font-semibold">Login as</h1>
 
       <div className="flex w-full justify-evenly items-center">
-        <div className="text-6xl font-semibold flex flex-col justify-center items-center cursor-pointer hover:scale-110 transition-all" onClick={() => {window.location.href = "/auth/mentor"}}>
+        <div className="text-6xl font-semibold flex flex-col justify-center items-center cursor-pointer hover:scale-110 transition-all" onClick={() => {window.location.href = "/auth/mentor-login"}}>
           <img src="/mentor.webp" alt="" className="h-[50vh]" />
           Mentor
         </div>

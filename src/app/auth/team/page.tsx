@@ -10,7 +10,7 @@ import React, { useState } from "react";
 
 type Props = {};
 
-const UserTypeLogin = ({ params: { usertype } }: any) => {
+const TeamLogin = () => {
   const [newUser, setNewUser] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,21 +21,17 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
   const [projectName, setProjectName] = useState("");
   const [mentor, setMentor] = useState("");
 
-
   const { mentorDB } = useDBContext();
 
   // teamInfo
-
-  // mentorInfo
-  const [mentorName, setMentorName] = useState("");
-  const mentorDBRef = collection(db, "mentorDB");
   const teamDBRef = collection(db, "teamDB");
+  const projectDBRef = collection(db, "projectDB");
 
   const handleNewUser = () => {
     setNewUser(!newUser);
   };
 
-  const handleTeamSignup = async(e: any) => {
+  const handleTeamSignup = async (e: any) => {
     e.preventDefault();
     // Signup your mentor
     try {
@@ -53,6 +49,12 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
           projectName: projectName,
           usertype: "team",
         });
+
+        await addDoc(projectDBRef, {
+          teamEmail: email,
+          mentorEmail: mentor,
+          projectName: projectName,
+        });
       } catch (error) {
         console.log(error);
       }
@@ -63,69 +65,26 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
     }
   };
 
-
-
-  const handleMentorSignup = async (e: any) => {
-    e.preventDefault();
-    // Signup your mentor
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // Store all details of mentor
-      // name
-      // email
-      // usertype
-      try {
-        await addDoc(mentorDBRef, {
-          name: mentorName,
-          email: email,
-          usertype: "mentor",
-        });
-      } catch (error) {
-        console.log(error);
-      }
-
-      window.location.href = "/mentor/dashboard";
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  const handleUserLogin = async () => {
+  const handleTeamLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = `/${usertype}/dashboard`;
+      window.location.href = "/team/dashboard";
     } catch (error) {
       alert(error);
     }
   };
-
-
 
   if (newUser)
     // Signup form
     return (
-      <div className="w-full flex flex-col items-center justify-center gap-8 h-screen z-10">
-        <h1 className="text-7xl font-semibold">Signup as {usertype}</h1>
+      <div className="w-full flex flex-col items-center justify-center gap-5 h-screen z-10">
+        <h1 className="text-7xl font-semibold">Signup as a team</h1>
         <div className="w-[50vw]">
           <div className="flex flex-col p-10 gap-5 w-full text-xl">
-            {usertype === "mentor" ? (
-              <input
-                className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
-                type="text"
-                placeholder="Enter your name"
-                value={mentorName}
-                onChange={(e) => setMentorName(e.target.value)}
-                required
-              />
-            ) : (
-              <></>
-            )}
             <input
               className="p-2 bg-transparent border-2 rounded-md bg-white shadow-lg border-black"
               type="email"
-              placeholder={`Enter ${
-                usertype === "team" ? "team" : "your"
-              } email`}
+              placeholder={`Enter team email`}
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -152,7 +111,6 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               }}
               required
             />
-
             <div className="flex justify-center items-center gap-5">
               <input
                 className="p-2 bg-transparent border-2 rounded-md shadow-lg bg-white border-black w-full"
@@ -206,25 +164,21 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
                 onChange={(e) => {
                   setMentor(e.target.value);
                 }}
-                defaultValue={'none'}
+                defaultValue={"none"}
                 required
               >
                 {/* Map all these according to mentorDB */}
                 <option
                   className="text-slate-700"
                   // hidden
-                  value=''
+                  value=""
                   disabled={true}
                 >
                   Select your mentor
                 </option>
 
-                {mentorDB.map((m, index) => (
-                  <option
-                    key={index}
-                    className=""
-                    value={m.name}
-                  >
+                {mentorDB.map((m:{name:string, email:string}, index) => (
+                  <option key={index} className="" value={m.email}>
                     {m.name}
                   </option>
                 ))}
@@ -233,11 +187,9 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
 
             <button
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white  font-semibold shadow-lg"
-              onClick={
-                usertype === "mentor" ? handleMentorSignup : handleTeamSignup
-              }
+              onClick={handleTeamSignup}
             >
-              {usertype === "team" ? "Continue" : "Signup"}
+              Signup
             </button>
             <p
               className="text-center text-base text-blue-500 underline cursor-pointer"
@@ -252,8 +204,8 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
   // Login form
   else
     return (
-      <div className="w-full flex flex-col items-center justify-center gap-10 h-screen z-10">
-        <h1 className="text-7xl font-semibold">Login as {usertype}</h1>
+      <div className="w-full flex flex-col items-center justify-center gap-5 h-screen z-10">
+        <h1 className="text-7xl font-semibold">Login as team</h1>
         <div className="w-[40vw]">
           <div className="flex flex-col p-10 gap-5 w-full text-xl">
             <input
@@ -277,11 +229,12 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
               required
             />
             <button
-              onClick={handleUserLogin}
+              onClick={handleTeamLogin}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition duration-200 rounded-lg text-white shadow-lg font-semibold"
             >
               Login
             </button>
+
             <p
               className="text-center text-base text-blue-500 underline cursor-pointer"
               onClick={handleNewUser}
@@ -294,4 +247,4 @@ const UserTypeLogin = ({ params: { usertype } }: any) => {
     );
 };
 
-export default UserTypeLogin;
+export default TeamLogin;

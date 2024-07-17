@@ -1,33 +1,67 @@
+"use client";
+import { useDBContext } from "@/components/globalDB-Context";
+import { auth, db } from "@/config/firebase.config";
 import { levels } from "@/data/levels";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {};
 
 const TeamDashboard = (props: Props) => {
   // const levels = ['Requirements', 'Design', 'Development', 'Testing', 'Delpoyment'];
+  const { teamDB } = useDBContext();
+  const [teamData, setTeamData] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
+  const teamEmail = auth?.currentUser?.email;
+
+  useEffect(() => {
+    if (teamDB && teamEmail) {
+      const data = teamDB.find((team) => team.email === teamEmail);
+      setTeamData(data);
+    }
+  }, [teamDB, teamEmail]);
+
+  useEffect(() => {
+    if (teamData) {
+      const members = [teamData.leader, teamData.member1, teamData.member2];
+      console.log(teamData);
+      setTeamMembers(members);
+    }
+  }, [teamData]);
 
   return (
     <div className="p-2 w-full z-10 min-h-screen">
       <h1 className="text-5xl my-3 font-bold text-center">
-        Project Management System using Gamification
+        {teamData ? teamData.projectName : "Dummy Project Name"}
       </h1>
+
       <div className="w-full p-3 rounded-md bg-gray-300">
         <div className="flex justify-between text-3xl">
-          <h1>Member name</h1>
-          <p>U15BH21S0158</p>
+          <h1 className="w-1/3">{teamData?.leader}</h1>
+          <p className="w-1/3">U15BH21S0158</p>
           <p>member@gmail.com</p>
         </div>
-        <div className="flex justify-between text-3xl">
-          <h1>Member name</h1>
-          <p>U15BH21S0158</p>
-          <p>member@gmail.com</p>
-        </div>
-        <div className="flex justify-between text-3xl">
-          <h1>Member name</h1>
-          <p>U15BH21S0158</p>
-          <p>member@gmail.com</p>
-        </div>
+
+        {teamData?.member1 ? (
+          <div className="flex justify-between text-3xl">
+            <h1 className="w-1/3">{teamData?.member1}</h1>
+            <p className="w-1/3">U15BH21S0158</p>
+            <p>member@gmail.com</p>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        {teamData?.member2 ? (
+          <div className="flex justify-between text-3xl">
+            <h1 className="w-1/3">{teamData?.member2}</h1>
+            <p className="w-1/3">U15BH21S0158</p>
+            <p>member@gmail.com</p>
+          </div>
+        ) : (
+          <></>
+        )}
+       
       </div>
 
       {/* progress circles */}
@@ -61,10 +95,16 @@ const TeamDashboard = (props: Props) => {
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-semibold">Your Requests:</h1>
           <div className="flex gap-5">
-            <button className="bg-blue-500 w-[10rem] py-2 rounded-md text-white font-semibold">
-              Request approval
+            <button
+              className="bg-blue-500 w-[10rem] py-2 rounded-md text-white font-semibold"
+              onClick={() => (window.location.href = "/team/request")}
+            >
+              Add progress
             </button>
-            <button className="bg-amber-500 w-[10rem] py-2 rounded-md text-white font-semibold">
+            <button
+              className="bg-amber-500 w-[10rem] py-2 rounded-md text-white font-semibold"
+              onClick={() => (window.location.href = "/team/level-up")}
+            >
               Request Level up!
             </button>
           </div>

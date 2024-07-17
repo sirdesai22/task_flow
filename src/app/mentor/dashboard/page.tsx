@@ -1,4 +1,5 @@
 "use client";
+import { useDBContext } from "@/components/globalDB-Context";
 import ProjectCard from "@/components/ProjectCard";
 import { auth } from "@/config/firebase.config";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -9,6 +10,9 @@ type Props = {};
 
 const MenntorDashboard = (props: Props) => {
   // console.log(auth.currentUser)
+
+  const {projectsDB} = useDBContext();
+  const mentorProjects = projectsDB.filter((project:{mentorEmail:string}) => project.mentorEmail === auth?.currentUser?.email);
 
   const userLogout = async () => {
     try {
@@ -38,9 +42,12 @@ const MenntorDashboard = (props: Props) => {
         <div className="p-3">
           <h1 className="text-7xl font-semibold my-4">Projects</h1>
           <div className="flex flex-col gap-4">
-            <ProjectCard />
-            <ProjectCard />
-            <ProjectCard />
+            {
+              mentorProjects.map((p, index) =>(
+                <ProjectCard key={index} project={p} />
+                // projectName={p.projectName} leader={p.leader} member1={p.member1} member2={p.member2}
+              ))
+            }
           </div>
         </div>
       </div>
