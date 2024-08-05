@@ -1,11 +1,12 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  level: number;
+};
 
 const ProgressBar = (props: Props) => {
-  const level = 3;
   const totalLevels = 5;
-  const percentage = (level / totalLevels) * 100;
+  const percentage = ((props.level +1) / totalLevels) * 100;
   return (
     <div className="w-full">
       <div className="bg-gray-500 rounded-full h-4 overflow-hidden">

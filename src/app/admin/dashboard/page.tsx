@@ -26,13 +26,15 @@ const Dashboard = (props: Props) => {
 
         <div className="w-1/2 flex flex-col gap-3">
           <p className="text-3xl font-semibold mb-6">Registered Teams</p>
-          {teamDB.map((t:{email:string, leader:string, member1:string, member2:string}, index) => (
+          {teamDB.map((t:{id: string, email:string, leader:string, member1:string, member2:string, mentorId:string}, index) => (
             <TeamCard
               key={index}
+              id={t.id}
               email={t.email}
               leader={t.leader}
               member1={t.member1}
               member2={t.member2}
+              mentor={mentorDB.find((m:{id:string, name:string}) => m.id === t.mentorId)?.name || 'Unknown'}
             />
           ))}
         </div>

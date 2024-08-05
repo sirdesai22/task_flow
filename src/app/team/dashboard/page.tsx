@@ -20,6 +20,7 @@ type Project = {
   id: string;
   mentorId: string;
   teamId: string;
+  level: number;
   projectName: string;
   request: [];
 };
@@ -48,7 +49,7 @@ const TeamDashboard = (props: Props) => {
         (project: { teamId: string }) => project.teamId === teamData.id
       );
       setProject(pro);
-      setRequests(pro.requests)
+      setRequests(pro.requests);
       const members = [teamData.leader, teamData.member1, teamData.member2];
       console.log(teamData);
       setTeamMembers(members);
@@ -106,7 +107,7 @@ const TeamDashboard = (props: Props) => {
               /> */}
               <img
                 src={`/levels/level${index + 1}.png`}
-                className={`-mt-3 ${index > project.level ? "grayscale" : ""}`}
+                className={`-mt-3 ${index > project?.level ? "grayscale" : ""}`}
                 alt="level"
               />
               <p className="text-xl font-semibold">{level}</p>
@@ -123,31 +124,60 @@ const TeamDashboard = (props: Props) => {
             <button
               className="bg-blue-500 w-[10rem] py-2 rounded-md text-white font-semibold"
               onClick={() =>
-                (window.location.href = `/team/request/${String(project.id)}`)
+                (window.location.href = `/team/request/${String(project?.id)}`)
               }
             >
               Add progress
             </button>
             <button
               className="bg-amber-500 w-[10rem] py-2 rounded-md text-white font-semibold"
-              onClick={() => (window.location.href = "/team/level-up")}
+              onClick={() => (window.location.href = `/team/level-up/${String(project?.id)}`)}
             >
               Request Level up!
             </button>
           </div>
         </div>
 
-        {requests.map((req:{title:string, desc:string, approved:boolean}, index) => (
-          <div key={index} className="flex justify-between items-center p-5 bg-gray-300 rounded-lg">
-            <h2 className="text-x">{req.title}</h2>
-            <div className="flex gap-5">
-              <p className={`text-xl font-semibold ${req.approved===null?"text-gray-500":req.approved?"text-green-500":"text-red-500"}`}>
-              {req.approved===null?"Pending":req.approved?"Approved":"Rejected"}
-              </p>
+        {requests.reverse().map(
+          (
+            req: {
+              title: string;
+              desc: string;
+              approved: boolean;
+              reason: string;
+              isRequest: boolean;
+            },
+            index
+          ) => (
+            <div
+              key={index}
+              className={`flex justify-between items-center p-5 ${req.isRequest?"bg-gray-300":"bg-amber-300"} rounded-lg`}
+            >
+              <div>
+                <h2 className="text-xl font-semibold">{req.title}</h2>
+                <p>Description: {req.desc}</p>
+                <p>{req.reason !== "" ? `Reason: ${req.reason}` : ""}</p>
+              </div>
+              <div className="flex gap-5">
+                <p
+                  className={`text-xl font-semibold ${
+                    req.approved === null
+                      ? "text-gray-500"
+                      : req.approved
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {req.approved === null
+                    ? "Pending"
+                    : req.approved
+                    ? "Approved"
+                    : "Rejected"}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
-        
+          )
+        )}
       </div>
     </div>
   );

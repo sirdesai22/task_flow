@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import ProgressBar from "./ProgressBar";
 import { useDBContext } from "./globalDB-Context";
+import { levels } from "@/data/levels";
 
 type Props = {
   project: {
     teamId: string;
     mentorId: string;
+    level?: number;
     projectName: string;
   };
 };
@@ -49,8 +51,8 @@ const ProjectCard = (props: Props) => {
       </div>
       <div className="w-1/2 text-center flex flex-col justify-center items-center gap-2">
         <p className="text-2xl font-semibold">{props.project.projectName}</p>
-        <p className="text-4xl font-bold text-amber-400">Level: Gold</p>
-        <ProgressBar />
+        <p className="text-4xl font-bold text-amber-400">Level: {levels[props.project.level]}</p>
+        <ProgressBar level={props.project.level}/>
       </div>
 
       <button

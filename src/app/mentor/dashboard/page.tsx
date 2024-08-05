@@ -11,22 +11,24 @@ type Props = {};
 const MenntorDashboard = (props: Props) => {
   // console.log(auth.currentUser)
   const { projectsDB, mentorDB } = useDBContext();
-  const [mentor, setMentor] = useState<{id:string}>({id: ""});
-  const [mentorProjects, setMentorProjects] = useState([]);
+  const [mentor, setMentor] = useState<{ id: string }>({ id: "" });
+  const [mentorProjects, setMentorProjects] = useState('');
 
   useEffect(() => {
-    const findMentor:any = mentorDB.find(
+    const findMentor: any = mentorDB.find(
       (mentor: { email: string }) => mentor.email === auth?.currentUser?.email
     );
     console.log(findMentor);
     setMentor(findMentor);
   }, [mentorDB]);
-  
+
   useEffect(() => {
-    const projects:any = projectsDB.filter(
-      (project: { mentorId: string }) => project.mentorId == mentor.id
-    );
-    setMentorProjects(projects);
+    if (mentorDB.id !== "") {
+      const projects: any = projectsDB.filter(
+        (project: { mentorId: string }) => project.mentorId == mentor.id
+      );
+      setMentorProjects(projects);
+    }
   }, [mentor, projectsDB]);
 
   const userLogout = async () => {
@@ -34,6 +36,7 @@ const MenntorDashboard = (props: Props) => {
       await signOut(auth);
       console.log(auth.currentUser?.email);
       console.log("ok done");
+      window.location.href = "/auth/mentor-login";
     } catch (error) {
       console.error(error);
     }
