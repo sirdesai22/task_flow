@@ -35,7 +35,7 @@ type Project = {
   }>;
 };
 
-const page = (props: Props) => {
+const ProjectInfo = (props: Props) => {
   const { teamId } = useParams();
   console.log("team id = ", teamId);
   const [project, setProject] = useState<Project>();
@@ -363,4 +363,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default ProjectInfo;

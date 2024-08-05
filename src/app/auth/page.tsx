@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {};
 
-const page = (props: Props) => {
+const Auth = (props: Props) => {
   return (
     <div className="flex w-full h-screen justify-center items-center flex-col z-10">
       <h1 className="text-8xl font-semibold">Login as</h1>
@@ -23,4 +23,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Auth;
